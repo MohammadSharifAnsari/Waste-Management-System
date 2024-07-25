@@ -95,6 +95,7 @@ generatepasswordresettoken:async function(){
     const resetToken=crypto.randomBytes(20).toString('hex');//yeh 20 byte ka ek token bna dega and then us token ko hex string me badal dega
     //ab is token ko hume database me store karana hai
     // this.forgetPasswordToken=resetToken; is tarah se bhi token daal sakte hai but agar database me security se related koi cheez rakhen to use as it is na daalen
+    console.log("reset token>>",resetToken);
     this.forgetPasswordToken=crypto.createHash('sha256').update(resetToken).digest('hex');
 //isko hum crypto se encrypt kar rhe hain;
 //sha256=>is an encrypting algorithm

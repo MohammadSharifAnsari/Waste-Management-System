@@ -4,6 +4,7 @@ import AppError from "../utils/error.utils.js";
 import bcrypt from "bcrypt";
 import fs from 'fs/promises';
 import sendmail from "../utils/mailer.utils.js";
+import crypto from "crypto";
 
 const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 100,//7 days ke liye cookie set hogi
@@ -400,7 +401,7 @@ async function reset(req, res, next){
        
         const user = await usermodel.findOne({
             forgetPasswordToken,
-             forgetPasswordExpiry:{$gt:Date.now()}//isme check kar rhe hain ki passwordki expiry current time se greater hai ki nhi if hai then return true
+            //  forgetPasswordExpiry:{$gt:Date.now()}//isme check kar rhe hain ki passwordki expiry current time se greater hai ki nhi if hai then return true
         });
         if (!user) {
             return next(new AppError("invalid or expire token,please try again", 400))

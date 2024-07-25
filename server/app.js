@@ -5,13 +5,14 @@ import cors from"cors";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import { configDotenv } from "dotenv";
 import userroutes from "./routes/userRoutes.js";
+import cookieParser from "cookie-parser";
 const app=express();
 configDotenv();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(morgan('dev'));
 app.use(cors());
-
+app.use(cookieParser());
 app.use('/api/v1/user',userroutes)
 
 app.use('ping',(req,res,next)=>{

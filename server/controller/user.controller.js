@@ -3,6 +3,7 @@ import usermodel from "../model/User.Model.js";
 import AppError from "../utils/error.utils.js";
 import bcrypt from "bcrypt";
 import fs from 'fs/promises';
+import sendmail from "../utils/mailer.utils.js";
 
 const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 100,//7 days ke liye cookie set hogi
@@ -13,7 +14,7 @@ const cookieOptions = {
 async function register(req,res,next){
 
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password,address } = req.body;
        
         if (!name || !email || !password) {
             //baar baar same error likhna is not a good practice
@@ -42,7 +43,8 @@ async function register(req,res,next){
         const user = await usermodel.create({
             name,
             email,
-            password,
+            password:await bcrypt.hash('password',10),
+            address,
             avatar: {
                 public_id: email,
                 //secure_url me usne cloudinary service ka url diya hai jo image store kar rha tha
@@ -104,7 +106,8 @@ async function register(req,res,next){
         //   user.password=await bcrypt.hash('password',10);
         console.log("before hash password");
         user.password=await bcrypt.hash('password',10);
-        console.log("i am here line 106");
+        console.log("userpassword saving time>>",user.password);
+        // console.log("i am here line 106");
         await user.save();
         user.password = undefined;// hum user ka password responce me nhi bhejna chahte hain
         // ab user register ho gya hai ab hum yahin par usko login kara lete hain now we are going to generate token
@@ -135,12 +138,290 @@ async function register(req,res,next){
 
 }
 
-// {
-//     "name":"Sharif",
-//     "email":"mohammadsharifansari157@gmail.com",
-//     "password":"Sharif1234@",
-//     "role":"ADMIN"
-// }
+async function login (req, res, next){
+    try {
+
+        let { email, password } = req.body;
+        if (!email || !password) {
+            return next(new AppError("email and password both are required", 405));
+        }
+
+        const user = await usermodel.findOne({ email }).select('+password');
+        
+    
+
+// console.log("passsword",password);
+// console.log("user.password",user.password);
 
 
-export {register};
+console.log("user>>",user);
+
+if (!user) {
+    return next(new AppError("email is not register first register your email and then login", 403));
+}
+ const match= user.comparepassword(password);
+//  asal me yahan wait use karna chahiye but mera compare password shi wrk kar nhi rha hai isliye await use nhi kar rhe
+console.log("match>>>",match);
+        if (!match) {
+            return next(new AppError("please enter right password", 404));
+        }
+        const token = await user.generateJWTToken();
+        user.password = undefined;
+        res.cookie("token", token, cookieOptions);
+        return res.status(200).json(
+            {
+                success: true,
+                message: "now you are logged in",
+                user
+            }
+        )
+    }
+    catch (err) {
+        return next(new AppError(err.message, 500));
+
+
+
+    }
+}
+
+async function logout(req,res,next){
+
+  
+    res.cookie('token', null, {
+        secure: true,
+        httpOnly: true,
+        maxAge: 0
+    })
+    res.status(200).json({
+        success: true,
+        message: "you are logged out successfully",
+
+    })
+
+}
+
+async function getprofile(req,res,next){
+
+    try {
+
+        const userid = req.body.user.id;
+        
+        const user = await usermodel.findById(userid);
+        
+        return res.status(200).json({
+            success: true,
+            message: "user detail",
+            user
+
+        })
+    }
+    catch (err) {
+        return next(new AppError("failed to fetch user detail", 405));
+
+
+    }
+
+}
+
+async function changepassword(req,res,next){
+
+    const { oldpassword, newpassword } = req.body;
+   
+
+    const { id } = req.body.user;
+
+
+    if (!oldpassword || !newpassword) {
+        return next(new AppError("all feilds are mandatory", 400));
+    }
+
+    const user = await usermodel.findById(id).select('+password');
+
+    if (!user) {
+        return next(new AppError("user does not exist", 400));
+    }
+
+    const isoldpassword = user.comparepassword(oldpassword);
+    //we use await here because comparepassword internally database se contact me hai
+    console.log("isoldpassword=",isoldpassword);
+    if (!isoldpassword) {
+        return next(new AppError("user enter wrong password,please try again", 400));
+    }
+    // user.password = newpassword;
+    user.password=await bcrypt.hash('newpassword',10);
+    await user.save();
+    user.password = undefined;
+
+    res.status(200).json({
+        success: true,
+        message: "password changed successfully"
+    })
+}
+async function updateuser(req,res,next){
+    //is update me profile picture update kara rhe hai and name update kara rhe hai
+
+    const { fullName ,address} = req.body;
+  
+    const { id } = req.params;
+    
+
+    const user = await usermodel.findById(id);
+    if (!user) {
+        return next(new AppError("user do not exist", 400));
+    }
+
+
+    if (fullName) {
+        user.name = fullName;
+        await user.save();
+    }
+    if (address) {
+        user.address = address;
+        await user.save();
+    }
+    if (req.file) {
+        //agar koi profile bhi di gyi hai then first hum user ke avatar ko jo cloudinary pe save hai usko destry karenge
+
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+        //now we can upload new image to cloudinary
+        try {
+      
+            //req.file.path=> give us the path to the file where image has been stored
+            // cloudinary.v2.uploader.upload(file, options).then(callback);
+            const result = await cloudinary.v2.uploader.upload(req.file.path, {
+                folder: 'LMS',//kaun se folder se upload karna hai humara project LMS me hai taki cvlient bhi access kar sake
+                width: 250,//by default heigt and width is in pexel unit
+                height: 250,
+                gravity: 'faces',//focus image ke fase pe rakhna hai
+                crop: 'fill'//crop karke khali jagah nhi dikhni chahiye
+
+
+            });
+            //agar clodinary pe image store ho jae then user ki public_id ko cloudinary ki public_id se and user ki secure_url ko cloudinary ke secure url se change kar dena we set our clodinary credential in root means server.js
+            if (result) {
+
+                user.avatar.public_id = result.public_id;
+                user.avatar.secure_url = result.secure_url;
+                //remove file from server 
+                fs.rm(`uploads/${req.file.filename}`);
+
+            }
+            //but clodinary pe directly upload nhi hoga pehle hum log login karenge jisse humare credential set honge on cloudinary
+
+
+
+        }
+        catch (err) {
+
+            return next(new AppError(err || "file not uploaded,please try again", 404));
+
+        }
+
+    }
+    await user.save();
+
+    res.status(200).json(
+        {
+            success: true,
+            message: "user update successfully"
+
+        }
+    )
+}
+async function forgot (req, res, next){
+
+    const { email } = req.body;
+
+    const user = await usermodel.findOne({ email });
+    if (!email) {
+
+        return next(new AppError("please enter user email", 400));
+
+    }
+
+    if (!user) {
+        return next(new AppError("user not register", 406));
+    }
+
+    // generatepasswordresettoken() ek function userSchema me banaenge jo ek token banaenge password reset hone par
+    const resettoken = await user.generatepasswordresettoken();
+
+    //user ko mail bhejne se pehle token ko database me store bhi karna hai
+    await user.save();//token se user ki do feild  forgetPasswordToken:String, forgetPasswordExpiry:Date ko bhar diya hai ab user ko save karenge
+    //client me jo url bhejenge woh client jaisa hoga 
+    const resetPasswordURL = `${process.env.FRONTEND_URL}/reset-password/${resettoken}`;
+    // process.env.FRONTEND_URL  frontend se backend pe isi url ke through request kar rha hai basically backend(server) is url pe exists kar rha hai and reset-password wale path par jab hum jaenge to reset-password wala function call ho jaega ab yeh url hume user ko mail karna hai so uske liye ek function banaenege
+
+    try {
+
+        // const subject = "reset-password";
+        // const message = `you can reset your password on clicking <a>${resetPasswordURL}</a> this url`;
+
+        var message = {
+            from: "mohammadsharifansari157@gmail.com",
+            to: "mohammadsharifansari157@gmail.com",
+            subject: "reset-password",
+            text: `you can reset your password on clicking <a>${resetPasswordURL}</a> this url`,
+           
+          };
+       const info= await sendmail(message);
+       if(!info){
+        return next(new AppError("Mail was not sent",400));
+       }
+      
+        res.status(200).json({
+            success: true,
+            message: `reset password token has been sent to ${email}`,
+            info
+        })
+    }
+    catch (err) {
+        //agar humara email send nhi ho pae by any reason then forgotpasswordtoken, forgotpasswordexpiry
+        //ko undefined set kar denge for security pupose
+        user.forgetPasswordToken = undefined;
+        user.forgetPasswordExpiry = undefined;
+
+        return next(new AppError(err.message, 400));
+
+    }
+
+
+
+}
+async function reset(req, res, next){
+    try {
+
+        //jab reset-password forget0password ke baad call hoga then req url ke parama me whi token denge jo forget-password karte waqt humne database me store kara tha
+        const { resetToken } = req.params;
+        //now validate that token and then change the passwpord
+        const { password } = req.body;
+        //kyunki forgetpassword token database me encrypted form me store hai then first hum resetToken ko encrypt karenge then find karenge token in database
+        const forgetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+       
+        const user = await usermodel.findOne({
+            forgetPasswordToken,
+             forgetPasswordExpiry:{$gt:Date.now()}//isme check kar rhe hain ki passwordki expiry current time se greater hai ki nhi if hai then return true
+        });
+        if (!user) {
+            return next(new AppError("invalid or expire token,please try again", 400))
+        }
+        user.password = password;
+        user.forgetPasswordToken = undefined;
+        user.forgetPasswordExpiry = undefined;
+        await user.save();
+        return res.status(200).json({
+            success: true,
+            message: "your passsword has been updated"
+        })
+
+
+    }
+    catch (err) {
+        return next(new AppError(err.message, 411));
+
+    }
+
+}
+
+
+export {register,login,logout,getprofile,changepassword,updateuser,forgot,reset};

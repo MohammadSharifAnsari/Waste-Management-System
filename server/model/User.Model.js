@@ -32,6 +32,10 @@ const userSchema=new mongoose.Schema({
         select:false,// meana jab tak explicitely password nhi manga jaega tab tak password mat dena
       
     },
+    address:{
+      type:String
+
+    },
     // role yeh bataega ki authority kya kya hai
     role:{
     type:String,
@@ -78,15 +82,15 @@ return await JWT.sign(
   comparepassword:async function(password){
 
 
-// console.log("password>",password);
-// console.log("this.passsword",this.password);
+console.log("password>",password);
+console.log("this.passsword",this.password);
 // await bcrypt.compare(password, user.password)
    const match=await bcrypt.compare(password,this.password);
  console.log("match>",match);
 return match;
 
   },
-  generatepasswordresettoken:async function(){
+generatepasswordresettoken:async function(){
     //yahan reset token hum crypto se banaenge jwt se nhi kyunki yahan token me humko apni information nhi deni sirf yeh validate karna hai ki jab hum yeh token user ko bejen aur user wapsi me humko new password ke sath token bheje to humo sirf validate karna hai ki kya yeh whi token hai
     const resetToken=crypto.randomBytes(20).toString('hex');//yeh 20 byte ka ek token bna dega and then us token ko hex string me badal dega
     //ab is token ko hume database me store karana hai
@@ -99,7 +103,7 @@ return match;
 
     this.forgetPasswordExpiry=Date.now()+15*60*100;//jab humne token generate kiya tabse 15 minute tak valid hoga uske baad expire hojaega yahan hum miliseconds me dete hai
 
-return resetToken
+return resetToken;
 
   }
 

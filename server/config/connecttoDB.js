@@ -17,6 +17,5 @@ console.log("Error in mongo connection ",err);
 
 
 }
-
 export default connecttoDB;
 

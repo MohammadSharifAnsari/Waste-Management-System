@@ -69,7 +69,7 @@ async function register(req,res,next){
                 //req.file.path=> give us the path to the file where image has been stored
                 // cloudinary.v2.uploader.upload(file, options).then(callback);
                 const result = await cloudinary.v2.uploader.upload(req.file.path, {
-                    folder: 'LMS',//kaun se folder se upload karna hai humara project LMS me hai taki cvlient bhi access kar sake
+                    folder: 'Waste Manegement system',//kaun se folder se upload karna hai humara project LMS me hai taki cvlient bhi access kar sake
                     width: 250,//by default heigt and width is in pexel unit
                     height: 250,
                     gravity: 'faces',//focus image ke fase pe rakhna hai

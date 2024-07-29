@@ -36,6 +36,25 @@ export const createAccount = createAsyncThunk("/auth/signup", async (data) =>{
     }
 });
 
+export const logout=createAsyncThunk("/auth/logout",async()=>{
+    try{
+        const res=axiosInstance.get("user/logout");
+        console.log("logout thunck>>",res);
+        toast.promise(res,{
+            loading:"logout in progress",
+            success:(state)=>{
+                console.log("state in logout>>",state);
+                return state?.data?.message;
+            },
+            error:"Failed to logout"
+        })
+return (await res).data;
+
+    }
+    catch(err){
+        toast.error(error?.response?.data?.message);
+    }
+})
 
 export const login=createAsyncThunk("/auth/login",async(data)=>{
 
@@ -79,6 +98,12 @@ state.isLoggedIn=true;
 state.role=action?.payload?.user?.role;
 state.data=action?.payload?.user;
 
+    })
+    .addCase(logout.fulfilled,(state,action)=>{
+        localStorage.clear();
+        state.isLoggedIn=false;
+        state.role="user";
+        state.data={};
     })
 
 }

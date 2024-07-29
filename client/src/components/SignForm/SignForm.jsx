@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { isEmail } from "../../helper/regex.js";
 import { createAccount } from "../../REDUX/Slices/userSlice.js";
+
 function SignForm() {
 
   const dispatch=useDispatch();
@@ -50,6 +51,7 @@ return ;
     email:"",
     password:""
   })
+
 
     }
 
@@ -110,6 +112,7 @@ return ;
           <SocialIcons />
           <p className="text-gray-700 sm:w-fit w-[12rem] text-center">or use your email for registration</p>
           <form
+          noValidate
             className="flex justify-center items-center flex-col gap-3"
             onSubmit={ createAccountSignup}
           >

@@ -1,7 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import SocialIcons from "../SocialIcons/SocialIcons";
-
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { isEmail } from "../../helper/regex.js";
+import { createAccount } from "../../REDUX/Slices/userSlice.js";
 function SignForm() {
+
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+
+    const [signupData,setsignupData]=useState({
+name:"",
+email:"",
+password:"",
+    });
+
+    function handleInput(e){
+      e.preventDefault();
+      const {name,value}=e.target;
+      // setsignupData((state)=>(
+      //   {...state,[name]:value}
+      // ))
+
+      setsignupData({...signupData,[name]:value});
+
+    }
+
+   async function createAccountSignup(event){
+
+    event.preventDefault();
+
+    if(!signupData?.name||!signupData?.email||!signupData?.password){
+      toast.error("All field are required");
+      return ;
+    }
+
+    if(!isEmail(signupData.email)){
+toast.error("Invalid Email");
+return ;
+    }
+  const response=await dispatch(createAccount(signupData));
+
+  if(response?.payload?.success){
+    navigate("/");
+  }
+  setsignupData({
+    name:"",
+    email:"",
+    password:""
+  })
+
+    }
+
+
+
   return (
     <main className="relative top-0 flex justify-center items-center h-screen bg-[url('/images/sign_cover.jpg')] bg-cover">
       {/* <section className="flex lg:w-[50vw]  h-[60vh] sm:w-[80vw] w-[90vw] rounded-2xl bg-white cursor-default">
@@ -58,24 +111,33 @@ function SignForm() {
           <p className="text-gray-700 sm:w-fit w-[12rem] text-center">or use your email for registration</p>
           <form
             className="flex justify-center items-center flex-col gap-3"
-            action="/"
+            onSubmit={ createAccountSignup}
           >
             <input
               type="text"
               placeholder="Name"
+              name="name"
+              onChange={ handleInput }
+              value={ signupData.name }
               className="bg-zinc-100 sm:px-4 px-3 py-2 rounded-lg shadow-md"
             />
             <input
               type="email"
               placeholder="Email"
+              name="email"
+              onChange={ handleInput }
+              value={ signupData.email }
               className="bg-zinc-100 sm:px-4 px-3 py-2 rounded-lg shadow-md"
             />
             <input
               type="password"
               placeholder="Password"
+              name="password"
+              onChange={ handleInput }
+              value={ signupData.password }
               className="bg-zinc-100 sm:px-4 px-3 py-2 rounded-lg shadow-md"
             />
-            <button className="bg-green-300 py-1 px-10 rounded-xl drop-shadow-lg font-medium hover:scale-105 hover:border hover:border-black">
+            <button type="submit" className="bg-green-300 py-1 px-10 rounded-xl drop-shadow-lg font-medium hover:scale-105 hover:border hover:border-black">
               Sign Up
             </button>
           </form>

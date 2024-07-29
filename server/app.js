@@ -13,7 +13,14 @@ configDotenv();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors(
+{
+
+    origin:[process.env.FRONTEND_URL1,process.env.FRONTEND_URL2],
+credentials:true//cookie set ho jaegi
+}
+
+));
 app.use(cookieParser());
 app.use('/api/v1/user',userroutes);
 app.use('/api/v1/article',articleRoutes);

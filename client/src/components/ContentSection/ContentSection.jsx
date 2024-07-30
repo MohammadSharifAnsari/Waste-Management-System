@@ -49,7 +49,7 @@ function ContentSection({
 
           {para.videoLink ? (
             <iframe
-            className="rounded aspect-video place-self-center w-full"
+            className="rounded aspect-video place-self-center lg:w-fit w-full"
               width="560"
               height="315"
               src={para.videoLink}

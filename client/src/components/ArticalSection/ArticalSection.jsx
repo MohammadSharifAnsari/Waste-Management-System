@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ContentSection from "../ContentSection/ContentSection";
-import AsideMenu from "../AsideMenu/AsideMenu.jsx";
+import ArticleForm from "./ArticleForm/ArticleForm.jsx";
+import AsideMenu from "../DisplayArticals/AsideMenu/AsideMenu.jsx";
+import { PreviewProvider } from "../../contexts/PreviewContext.js";
 
-function ArticalSection() {
+function ArticalSection({ role = "USER" }) {
+  const [previewContent, setPreviewContent] = useState("");
+
   const articleContent = {
     mainHeading: "Refill shops: Everything you need to know",
     mainPara:
@@ -53,11 +57,33 @@ function ArticalSection() {
       },
     ],
   };
+
+  const handlePreview = (content) => {
+    console.log(content);
+    const localContent = JSON.parse(localStorage.getItem("article"));
+    setPreviewContent({ ...localContent });
+  };
+
+  useEffect(() => {
+    const localContent = JSON.parse(localStorage.getItem("article"));
+    setPreviewContent({ ...localContent });
+  }, []);
+
+  role = "ADMIN";
   return (
-    <main className="flex justify-between">
-      <ContentSection {...articleContent} />
-      <AsideMenu />
-    </main>
+    <PreviewProvider value={{ previewContent, handlePreview }}>
+      {role === "ADMIN" ? (
+        <main className="flex md:justify-between lg:flex-row flex-col mb-10">
+          <ContentSection {...previewContent} />
+          <ArticleForm />
+        </main>
+      ) : (
+        <main className="flex md:justify-between lg:flex-row flex-col mb-10">
+          <ContentSection {...articleContent} />
+          <AsideMenu />
+        </main>
+      )}
+    </PreviewProvider>
   );
 }
 

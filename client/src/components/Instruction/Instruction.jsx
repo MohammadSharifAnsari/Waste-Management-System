@@ -14,7 +14,7 @@ function Instruction() {
         para2={
           "Fill in your personal information and set your waste reduction goals."
         }
-        imageUrl={"/images/number_cover/one.jpg"}
+        imageUrl={"/images/number_cover/one.webp"}
       />
       <InfoCard
         cardPosition={"right"}
@@ -26,7 +26,7 @@ function Instruction() {
         para2={
           "Check your dashboard to see visualizations of your waste generation trends and goal progress."
         }
-        imageUrl={"/images/number_cover/two.jpg"}
+        imageUrl={"/images/number_cover/two.webp"}
       />
       <InfoCard
         cardPosition={"left"}
@@ -36,7 +36,7 @@ function Instruction() {
         para2={
           "View information on accepted materials, operating hours, and contact details for each center."
         }
-        imageUrl={"/images/number_cover/three.jpg"}
+        imageUrl={"/images/number_cover/three.webp"}
       />
       <InfoCard
         cardPosition={"right"}
@@ -48,7 +48,7 @@ function Instruction() {
         para2={
           "Discover practical tips for composting, reducing single-use plastics, and more."
         }
-        imageUrl={"/images/number_cover/four.jpg"}
+        imageUrl={"/images/number_cover/four.webp"}
       />
       <InfoCard
         cardPosition={"left"}
@@ -58,7 +58,7 @@ function Instruction() {
           "Receive reminders for recycling pick-up days, local events, and new resources."
         }
         para2={"Get tips tailored to your waste tracking data and goals."}
-        imageUrl={"/images/number_cover/five.jpg"}
+        imageUrl={"/images/number_cover/five.webp"}
       />
     </div>
   );

@@ -69,9 +69,6 @@ isLoggedIn?(
 ):(
   <>
   <Link to={"/signIn"} className="sign_in_btn">
-login
-</Link>
-  <Link to={"/signIn"} className="sign_in_btn">
 Signup
 </Link>
   </>

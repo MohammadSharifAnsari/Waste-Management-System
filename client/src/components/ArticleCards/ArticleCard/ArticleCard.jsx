@@ -11,7 +11,7 @@ function ArticleCard({
       <div
         className="h-[200px] drop-shadow-xl w-full bg-cover rounded-t-2xl"
         style={{
-          backgroundImage: `url(${imageUrl || "/images/hero_cover.jpg"})`,
+          backgroundImage: `url(${imageUrl || "/images/hero_cover.webp"})`,
         }}
       ></div>
       <div className="px-4">

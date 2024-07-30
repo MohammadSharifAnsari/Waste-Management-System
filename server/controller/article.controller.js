@@ -26,16 +26,20 @@ async function postArticles(req,res,next){
   try{
     console.log("start");
 
-    const {title,content,author}=req.body;
+    const {title,main_content,cover_content,sub_title,sub_content,author,vediolink}=req.body;
 
-    if(!title||!content||!author){
-      return next(new AppError("All field are mandatory",400));
+    if(!title||!main_content||!cover_content){
+      return next(new AppError("All fields are required",400));
     }
 
     const article=await articleModel.create({
       title,
-      content,
+      main_content,
+      cover_content,
+      sub_title,
+      sub_content,
       author,
+      vediolink
     });
     console.log("articlres>>",article);
     console.log("req.file>>",req.file);
@@ -117,10 +121,9 @@ if(!deletedArticle){
 async function updateArticle(req,res,next){
   
   try{
-
-       const {title,content,author}=req.body;
+    const {title,main_content,cover_content,sub_title,sub_content,author,vediolink}=req.body;
 const {id}=req.params;
-       if(!title&&!content&&!author&&!req.file){
+       if(!title&&!main_content&&!cover_content){
         return next(new AppError("Fields are required",400));
        }
 
@@ -132,14 +135,28 @@ const {id}=req.params;
        if(title){
         article.title=title;
        }
-       if(content){
-        article.content=content;
+       if(main_content){
+        article.main_content=main_content;
+       }
+       if(cover_content){
+        article.cover_contentcovern_content;
        }
        if(author){
         article.author=author;
        }
+       if(vediolink)
+       {
+        article.vediolink=vediolink;
+       }
+       if(sub_title)
+       {
+        article.sub_title=sub_title;
+       }
+       if(sub_content){
+        article.sub_content=sub_content;
+       }
        console.log("content>>",title);       
-console.log("content>>",content);       
+console.log("content>>",main_content);       
 console.log("author>>",author);       
 console.log("req.file>>",req.file);
 if (req.file) {

@@ -5,7 +5,10 @@ import mongoose from "mongoose";
 
 const articleSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  content: { type: String, required: true },
+  main_content: { type: String, required: true },
+  cover_content: { type: String, required: true },
+  sub_title:{type:String},
+  sub_content:{type:String},
   author: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
@@ -22,6 +25,10 @@ const articleSchema = new mongoose.Schema({
   //below two string used for forget password
   
   
+},
+vediolink:{
+  type:String,
+
 },
   published: { type: Boolean, default: false },
   comments: [

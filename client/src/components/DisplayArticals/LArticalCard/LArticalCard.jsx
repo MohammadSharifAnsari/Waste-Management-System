@@ -12,7 +12,7 @@ function LArticalCard({
       <div
         className="sm:w-[66rem] drop-shadow-xl w-full h-[16rem] bg-cover rounded-2xl"
         style={{
-          backgroundImage: `url(${imageUrl || "/images/hero_cover.jpg"})`,
+          backgroundImage: `url(${imageUrl || "/images/hero_cover.webp"})`,
         }}
       ></div>
       <div className="px-4 cursor-default">

@@ -23,7 +23,7 @@ function AboutCards() {
               "Dive into our rich library of guides, videos, and articles. Discover practical tips for composting, cutting down on single-use plastics, and mastering the art of recycling."
             }
             linkText={"Unlock Resources"}
-            imageUrl={"/images/card_cover/resources.jpg"}
+            imageUrl={"/images/card_cover/resources.webp"}
           />
           <AboutCard
             heading={"Set and Achieve Waste Management Goals"}
@@ -31,7 +31,7 @@ function AboutCards() {
               "Track your waste and set goals to reduce, reuse, and recycle. Our dashboard helps you monitor progress and offers tips for minimizing waste."
             }
             linkText={"Track Your Waste"}
-            imageUrl={"/images/card_cover/recycle_goal.jpg"}
+            imageUrl={"/images/card_cover/recycle_goal.webp"}
           />
           <AboutCard
             heading={"Find Recycling Centers Near You"}
@@ -39,7 +39,7 @@ function AboutCards() {
               "Easily locate nearby recycling centers with our interactive map. Get details on accepted materials, hours, and contacts to ensure proper recycling."
             }
             linkText={"Discover Recycling Centers"}
-            imageUrl={"/images/card_cover/recycling_center.png"}
+            imageUrl={"/images/card_cover/recycling_center.webp"}
           />
         </div>
         <div className="flex gap-3 items-center justify-center">

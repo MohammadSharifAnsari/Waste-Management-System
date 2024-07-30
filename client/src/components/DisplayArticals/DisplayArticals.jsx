@@ -1,5 +1,5 @@
 import React from "react";
-import AsideMenu from "../AsideMenu/AsideMenu";
+import AsideMenu from "./AsideMenu/AsideMenu";
 import LArticalCard from "./LArticalCard/LArticalCard";
 
 function DisplayArticals() {
@@ -22,8 +22,8 @@ function DisplayArticals() {
     },
   ];
   return (
-    <main className="flex justify-between mb-8">
-      <section className="flex justify-between flex-col items-center gap-8 p-8 bg-custom-offWhite sm:rounded-r-xl w-full sm:w-fit">
+    <main className="flex md:flex-row flex-col justify-between mb-8">
+      <section className="flex justify-between flex-col items-center gap-8 p-8 bg-custom-offWhite md:rounded-r-xl w-full md:w-fit">
         {articalsContents.map((articalsContent) => (
           <LArticalCard key={articalsContent._id} {...articalsContent} />
         ))}

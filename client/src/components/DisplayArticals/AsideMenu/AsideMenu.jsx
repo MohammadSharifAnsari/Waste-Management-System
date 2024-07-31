@@ -30,7 +30,7 @@ function AsideMenu() {
       </form>
       <ul className="md:text-sm text-lg">
         {comments.map((e) => (
-          <li className="my-4">
+          <li key={e.id} className="my-4">
             <h5 className="md:text-sm text-lg">{e.username}:</h5>
             <p className="md:text-sm text-lg bg-custom-offWhite rounded-lg text-gray-500 px-2 py-1 mt-1">
               {e.comment}

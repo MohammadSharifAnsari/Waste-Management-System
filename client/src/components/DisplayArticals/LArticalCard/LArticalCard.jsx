@@ -6,7 +6,10 @@ function LArticalCard({
   content = "",
   imageUrl = "",
   author = "",
+  id=""
 }) {
+
+
   return (
     <div className="hover:scale-110 drop-shadow-lg transition-all flex sm:flex-row flex-col items-center sm:w-[60vw] w-[28rem] sm:h-[20rem] bg-white border rounded-2xl gap-4 p-4">
       <div
@@ -30,7 +33,7 @@ function LArticalCard({
             July 23, 2024 -{" "}
             <span className="text-custom-link-blue">{author || "Author"}</span>
           </div>
-          <Link to={'/Content'} className="cursor-pointer sm:max-md:text-[10px] text-custom-link-blue text-sm md:text-sm text-nowrap">
+          <Link to={`/Content/${id}`} className="cursor-pointer sm:max-md:text-[10px] text-custom-link-blue text-sm md:text-sm text-nowrap">
             learn more &#8594;
           </Link>
         </div>

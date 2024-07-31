@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { usePreview } from "../../../contexts/PreviewContext";
-
+import toast from "react-hot-toast";
+import { addArticle } from "../../../REDUX/Slices/articleSlice.js";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 function ArticleForm() {
   const [title, setTitle] = useState("");
   const [mainPara, setMainPara] = useState("");
@@ -9,11 +12,33 @@ function ArticleForm() {
   const [subHeading, setSubHeading] = useState("");
   const [subPara, setSubPara] = useState("");
   const [videoLink, setVideoLink] = useState("");
+  const [author, setauthor] = useState("");
+  const [media,setmedia]=useState("");
 
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+ 
   const { previewContent, handlePreview } = usePreview();
 
-  const handlePreviewSubmit = (e) => {
+  const handlePreviewSubmit =async (e) => {
     e.preventDefault();
+    // title,main_content,cover_content,sub_title,sub_content,author,vediolink
+
+    if(!title||!mainPara||!author){
+      toast.error("fill up required field");
+      return ;
+    }
+
+    const obj = {
+      title,
+      main_content: mainPara,
+      cover_content: cover,
+      sub_title: subHeading,
+      sub_content: subPara,
+      vediolink: videoLink,
+      author,
+      media,
+    };
     const content = {
       mainHeading: title,
       mainPara: mainPara,
@@ -30,6 +55,24 @@ function ArticleForm() {
     };
     localStorage.setItem("article", JSON.stringify(content));
     handlePreview(content);
+
+    let formdata=new FormData();
+formdata.append("title",title);
+formdata.append("main_content",mainPara);
+formdata.append("cover_content",cover);
+formdata.append("sub_title",subHeading);
+formdata.append("sub_content",subPara);
+formdata.append("vediolink",videoLink);
+formdata.append("author",author);
+formdata.append("media",media);
+
+
+
+const res=await dispatch(addArticle(formdata));
+if(res?.payload?.success){
+ navigate("/");
+}
+
   };
 
   return (
@@ -80,6 +123,9 @@ function ArticleForm() {
           <label htmlFor="article-cover-image">Cover Image:</label>
           <input
             type="file"
+            onChange={(e)=>{
+              setmedia(e.target.files[0]);
+            }}
             name="article-cover-image"
             className="rounded-lg text-gray-400 py-1 px-2 bg-gray-100 w-fit lg:w-44"
           />
@@ -128,6 +174,16 @@ function ArticleForm() {
               onChange={(e) => setVideoLink(e.target.value)}
             />
           </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="sub-video">Author :</label>
+            <input
+              id="sub-video"
+              type="text"
+              className="rounded-lg text-gray-400 py-1 px-2 bg-gray-100"
+              value={author}
+              onChange={(e) => setauthor(e.target.value)}
+            />
+          </div>
         </div>
         <button className="rounded-lg text-gray-400 py-1 px-10 bg-gray-100 w-fit shadow-md hover:scale-105 self-center my-5">
           Add Passage
@@ -140,7 +196,10 @@ function ArticleForm() {
           >
             Save
           </button>
-          <button className="rounded-xl text-gray-800 py-1 px-7 bg-green-300 w-fit shadow-md hover:scale-105 self-center my-5">
+          <button
+            type="submit"
+            className="rounded-xl text-gray-800 py-1 px-7 bg-green-300 w-fit shadow-md hover:scale-105 self-center my-5"
+          >
             Publish
           </button>
         </div>

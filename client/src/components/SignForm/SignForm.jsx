@@ -4,14 +4,14 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { isEmail } from "../../helper/regex.js";
-import { createAccount } from "../../REDUX/Slices/userSlice.js";
+import { createAccount,login } from "../../REDUX/Slices/userSlice.js";
 
 function SignForm({ pageRequest = "signIn" }) {
   const [email, setEmail] = useState("")
   const [password,setPassword] = useState("")
   const [username,setUsername] = useState("")
 
-  const [formType, setFormType] = useState(pageRequest);
+  const [formType, setFormType] = useState("signIn");
   const [animate, setAnimate] = useState("");
   const [Content, setContent] = useState({
     heading: "Welcome Back!",
@@ -88,6 +88,42 @@ function SignForm({ pageRequest = "signIn" }) {
     });
   }
 
+  async function loginAccount(event){
+
+    event.preventDefault();
+
+    if(!email||!password){
+toast.error("All field required");
+return ;
+    }
+if(!isEmail(email)){
+toast.error("Invalid Email");
+return ;
+}
+console.log("email in login>>",email);
+console.log("password in login>>",password);
+
+
+    let formData=new FormData();
+    formData.append("email",email);
+    formData.append("password",password);
+    console.log("formData>>",formData);
+
+    let obj={
+      "email":`${email}`,
+      "password":`${password}`
+    }
+    console.log("obj=",obj);
+
+    const response=await dispatch(login(obj));
+    console.log("response of login >>",response)
+if(response?.payload?.success){
+navigate("/");
+}
+
+
+  }
+
   return (
     <main className="relative top-0 flex justify-center items-center h-screen bg-[url('/images/sign_cover.jpg')] bg-cover">
       <section className="flex lg:w-[50vw]  h-[60vh] sm:w-[80vw] w-[90vw] rounded-2xl bg-white cursor-default">
@@ -97,8 +133,9 @@ function SignForm({ pageRequest = "signIn" }) {
             <SocialIcons />
             <p className="text-gray-700">or use email or password</p>
             <form
+            noValidate
               className="flex justify-center items-center flex-col gap-3"
-              action="/"
+              onSubmit={loginAccount}
             >
               <input
                 type="text"
@@ -118,7 +155,7 @@ function SignForm({ pageRequest = "signIn" }) {
               <p className="text-custom-link-blue text-sm cursor-pointer mt-10">
                 forget password?
               </p>
-              <button className="bg-green-300 py-1 px-10 rounded-xl drop-shadow-lg font-medium hover:scale-105 hover:border hover:border-black">
+              <button type="submit" className="bg-green-300 py-1 px-10 rounded-xl drop-shadow-lg font-medium hover:scale-105 hover:border hover:border-black">
                 Sign In
               </button>
             </form>
@@ -138,22 +175,27 @@ function SignForm({ pageRequest = "signIn" }) {
             >
               <input
                 onChange={handleInput}
-                value={signupData.name}
                 type="text"
                 placeholder="Name"
+                required
+                id="name"
+                name="name"
                 className="bg-zinc-100 sm:px-4 px-3 py-2 rounded-lg shadow-md"
+                value={signupData?.name}
               />
               <input
                 onChange={handleInput}
-                value={signupData.email}
+                value={signupData?.email}
                 type="email"
+                name="email"
                 placeholder="Email"
                 className="bg-zinc-100 sm:px-4 px-3 py-2 rounded-lg shadow-md"
               />
               <input
                 onChange={handleInput}
-                value={signupData.password}
+                value={signupData?.password}
                 type="password"
+                name="password"
                 placeholder="Password"
                 className="bg-zinc-100 sm:px-4 px-3 py-2 rounded-lg shadow-md"
               />

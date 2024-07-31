@@ -142,7 +142,10 @@ async function register(req,res,next){
 async function login (req, res, next){
     try {
 
-        let { email, password } = req.body;
+        const { email, password } = req.body;
+console.log("email in server login>>",email);
+console.log("password in server login>>",password);
+
         if (!email || !password) {
             return next(new AppError("email and password both are required", 405));
         }

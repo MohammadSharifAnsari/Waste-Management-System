@@ -28,6 +28,7 @@ async function postArticles(req,res,next){
 
     const {title,main_content,cover_content,sub_title,sub_content,author,vediolink}=req.body;
 
+
     if(!title||!main_content||!cover_content){
       return next(new AppError("All fields are required",400));
     }

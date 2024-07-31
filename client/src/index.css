@@ -15,7 +15,7 @@
 }
 
 .sign_in_btn {
-    @apply p-1 px-3 sm:px-4 border-2 border-white border-solid rounded-lg hover:scale-105 sm:text-sm md:text-lg text-[10px]
+    @apply p-1 px-3 sm:px-4 border-2 border-solid rounded-lg hover:scale-105 sm:text-sm md:text-lg text-[10px]
 }
 
 body {

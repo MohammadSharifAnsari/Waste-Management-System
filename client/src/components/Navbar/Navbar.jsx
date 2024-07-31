@@ -62,9 +62,11 @@ isLoggedIn?(
   <Link onClick={handleLogout} className="sign_in_btn">
               logout
             </Link>
-  <Link to={"/profile"} className="sign_in_btn">
+  <NavLink to={"/profile"} className={({ isActive }) =>
+                `sign_in_btn ${isActive ? "text-custom-link-blue border-custom-link-blue" : "text-white"}`
+              }>
               profile
-            </Link>
+            </NavLink>
   </>
 ):(
   <>

@@ -4,12 +4,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { isEmail } from "../../helper/regex.js";
-import { createAccount,login } from "../../REDUX/Slices/userSlice.js";
+import { createAccount, login } from "../../REDUX/Slices/userSlice.js";
 
 function SignForm({ pageRequest = "signIn" }) {
-  const [email, setEmail] = useState("")
-  const [password,setPassword] = useState("")
-  const [username,setUsername] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const [formType, setFormType] = useState("signIn");
   const [animate, setAnimate] = useState("");
@@ -88,40 +88,36 @@ function SignForm({ pageRequest = "signIn" }) {
     });
   }
 
-  async function loginAccount(event){
-
+  async function loginAccount(event) {
     event.preventDefault();
 
-    if(!email||!password){
-toast.error("All field required");
-return ;
+    if (!email || !password) {
+      toast.error("All field required");
+      return;
     }
-if(!isEmail(email)){
-toast.error("Invalid Email");
-return ;
-}
-console.log("email in login>>",email);
-console.log("password in login>>",password);
-
-
-    let formData=new FormData();
-    formData.append("email",email);
-    formData.append("password",password);
-    console.log("formData>>",formData);
-
-    let obj={
-      "email":`${email}`,
-      "password":`${password}`
+    if (!isEmail(email)) {
+      toast.error("Invalid Email");
+      return;
     }
-    console.log("obj=",obj);
+    console.log("email in login>>", email);
+    console.log("password in login>>", password);
 
-    const response=await dispatch(login(obj));
-    console.log("response of login >>",response)
-if(response?.payload?.success){
-navigate("/");
-}
+    let formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    console.log("formData>>", formData);
 
+    let obj = {
+      email: `${email}`,
+      password: `${password}`,
+    };
+    console.log("obj=", obj);
 
+    const response = await dispatch(login(obj));
+    console.log("response of login >>", response);
+    if (response?.payload?.success) {
+      navigate("/");
+    }
   }
 
   return (
@@ -133,7 +129,7 @@ navigate("/");
             <SocialIcons />
             <p className="text-gray-700">or use email or password</p>
             <form
-            noValidate
+              noValidate
               className="flex justify-center items-center flex-col gap-3"
               onSubmit={loginAccount}
             >
@@ -142,8 +138,7 @@ navigate("/");
                 placeholder="Email"
                 className="bg-zinc-100 sm:px-4 px-3 py-2 rounded-lg shadow-md"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)
-                }
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="password"
@@ -155,7 +150,10 @@ navigate("/");
               <p className="text-custom-link-blue text-sm cursor-pointer mt-10">
                 forget password?
               </p>
-              <button type="submit" className="bg-green-300 py-1 px-10 rounded-xl drop-shadow-lg font-medium hover:scale-105 hover:border hover:border-black">
+              <button
+                type="submit"
+                className="bg-green-300 py-1 px-10 rounded-xl drop-shadow-lg font-medium hover:scale-105 hover:border hover:border-black"
+              >
                 Sign In
               </button>
             </form>

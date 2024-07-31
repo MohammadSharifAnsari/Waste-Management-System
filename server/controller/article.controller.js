@@ -1,4 +1,5 @@
 import articleModel from "../model/article.model.js";
+import usermodel from "../model/User.Model.js";
 import AppError from "../utils/error.utils.js";
 import cloudinary from "cloudinary";
 import fs from "fs/promises";
@@ -217,6 +218,31 @@ return next(new AppError(err||"Something went wrong",400));
   }
 
 }
+async function PostComment(req,res,next)
+{
+  const { content,userid, articleid} = req.body;
+  if(!articleid)
+  {
+   return next(new AppError(400, "article does not exist"));
+  }
+  const users= await usermodel.findById(userid);
+  const article= await articleModel.findById(articleid);
+  const comment= {
+    user:users.name,
+    content:content,
+    createdAt:Date.now()
+  }
+ 
+  article.comments.push(comment)
+
+article.save()
+  return res.json({
+    success:true,
+    message:"Comment post successfully",
+    article
+  })
+
+}
 
 // postArticles,getAllArticles
-export {postArticles,getAllArticles,deleteArticle,updateArticle};
+export {postArticles,getAllArticles,deleteArticle,updateArticle,PostComment};

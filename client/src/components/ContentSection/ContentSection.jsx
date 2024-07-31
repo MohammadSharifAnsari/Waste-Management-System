@@ -25,8 +25,8 @@ function ContentSection({
       </div>
       <p>{mainPara || "Main Paragraph"}</p>
 
-      {subParagraphs.map((para) => (
-        <div key={para.subHeading} className="flex flex-col gap-[inherit]">
+      {subParagraphs.map((para,idx) => (
+        <div  key={idx} className="flex flex-col gap-[inherit]">
           <h4 className="sm:text-2xl text-xl font-medium text-center">
             {para["subHeading"] || "Sub Heading"}
           </h4>

@@ -64,6 +64,7 @@ const res=axiosInstance.post("/user/login",data);
 toast.promise(res,{
     loading:"wait! login is in process",
     success:(data)=>{
+        console.log("data in createAsyncThunk of login>>",data);
 return data?.data?.message;
     },
     error:"Failed to create account"
@@ -91,9 +92,10 @@ localStorage.setItem("role",action?.payload?.user?.role);
 
     }).addCase(login.fulfilled,(state,action)=>{
 
+        console.log("login.fulfilled>>",login.fulfilled());
         localStorage.setItem("isLoggedIn",true);
 localStorage.setItem("role",action?.payload?.user?.role);
-localStorage.setItem("data",json.parse(action?.payload?.user));
+localStorage.setItem("data",JSON.stringify(action?.payload?.user));
 state.isLoggedIn=true;
 state.role=action?.payload?.user?.role;
 state.data=action?.payload?.user;

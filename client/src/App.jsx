@@ -47,7 +47,7 @@ const router = createBrowserRouter([
         element: <SignForm />,
       },
       {
-        path: "Content",
+        path: 'Content/:id',
         element: (
           <>
             <Header

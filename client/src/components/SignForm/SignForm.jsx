@@ -125,7 +125,7 @@ navigate("/");
   }
 
   return (
-    <main className="relative top-0 flex justify-center items-center h-screen bg-[url('/images/sign_cover.jpg')] bg-cover">
+    <main className="relative top-0 flex justify-center items-center h-screen bg-[url('/images/sign_cover.webp')] bg-cover">
       <section className="flex lg:w-[50vw]  h-[60vh] sm:w-[80vw] w-[90vw] rounded-2xl bg-white cursor-default">
         {formType === "signIn" ? (
           <div className="w-1/2 rounded-l-[inherit] flex justify-center items-center flex-col gap-3">
@@ -214,7 +214,7 @@ navigate("/");
         </div>
 
         <div
-          className={`w-1/2 rounded-[inherit] rounded-l-[20%] flex justify-center flex-col items-center bg-[url('/images/sign_image2.jpg')] text-white gap-3 transition-all duration-700 ${animate}`}
+          className={`w-1/2 rounded-[inherit] rounded-l-[20%] flex justify-center flex-col items-center bg-[url('/images/sign_image2.webp')] text-white gap-3 transition-all duration-700 ${animate}`}
         >
           <h3 className="text-2xl font-bold ">{Content.heading}</h3>
           <p className="text-center w-[70%]">{Content.subHeading}</p>

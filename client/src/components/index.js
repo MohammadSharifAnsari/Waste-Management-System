@@ -10,6 +10,8 @@ import ArticalSection from "./ArticalSection/ArticalSection";
 import PageIndex from "./PageIndex/PageIndex";
 import DisplayArticals from "./DisplayArticals/DisplayArticals";
 import SignForm from "./SignForm/SignForm";
+import ProfilePage from "./ProfilePage/ProfilePage";
+import OrganisationForm from "./OrganisationForm/OrganisationForm";
 
 export {
   Navbar,
@@ -23,5 +25,7 @@ export {
   PageIndex,
   SignForm,
   SocialIcons,
+  ProfilePage,
+  OrganisationForm,
   Footer,
 };

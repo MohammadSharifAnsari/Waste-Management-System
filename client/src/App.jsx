@@ -1,9 +1,21 @@
-import { Navbar,Header,Instruction,Footer,AboutCards,ArticleCards,ContentSection,ArticalSection,DisplayArticals,PageIndex,SignForm,
+import {
+  Navbar,
+  Header,
+  Instruction,
+  Footer,
+  AboutCards,
+  ArticleCards,
+  ContentSection,
+  ArticalSection,
+  DisplayArticals,
+  PageIndex,
+  ProfilePage,
+  OrganisationForm,
+  SignForm,
 } from "./components";
 
-import { RouterProvider,createBrowserRouter } from "react-router-dom";
-import Layout from "./Layout.jsx"
-
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Layout from "./Layout.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +47,7 @@ const router = createBrowserRouter([
               coverHeading="Explore Resources"
               coverContent="Discover practical tips for composting, reducing single-use plastics, and more."
               coverHeight="short"
-              coverImageUrl="/images/article_cover.jpg"
+              coverImageUrl="/images/article_cover.webp"
             />
             <DisplayArticals />
             <PageIndex index={1} length={12} />
@@ -54,10 +66,26 @@ const router = createBrowserRouter([
               coverHeading="Explore Resources"
               coverContent="Discover practical tips for composting, reducing single-use plastics, and more."
               coverHeight="short"
-              coverImageUrl="/images/article_cover.jpg"
+              coverImageUrl="/images/article_cover.webp"
             />
             <ArticalSection />
             <PageIndex />
+          </>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <>
+            <ProfilePage />
+          </>
+        ),
+      },
+      {
+        path: "organisation",
+        element: (
+          <>
+            <OrganisationForm />
           </>
         ),
       },
@@ -88,7 +116,7 @@ function App() {
         coverHeading="Explore Resources"
         coverContent="Discover practical tips for composting, reducing single-use plastics, and more."
         coverHeight="short"
-        coverImageUrl="/images/article_cover.jpg"
+        coverImageUrl="/images/article_cover.webp"
       />
       <ArticalSection />
       <PageIndex />

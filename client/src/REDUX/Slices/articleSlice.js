@@ -49,6 +49,25 @@ export const getAllArticle=createAsyncThunk("article/get",async()=>{
     }
 })
 
+export const postComment=createAsyncThunk("article/postcomment",async(data)=>{0
+    try {
+        
+const res=axiosInstance.post("/article/comment",data);
+toast.promise(res,{
+    loading:"adding your comment...",
+    success:(data)=>{
+        return data?.data?.message;
+    },
+    error:"Failed to add comment !"
+})
+
+return (await res).data;
+
+    } catch (error) {
+        toast.error(error?.response?.data?.message);
+    }
+})
+
 const articleSlice=createSlice({
 
     name:"article",
@@ -60,6 +79,7 @@ const articleSlice=createSlice({
             state.articleData=action?.payload?.article;
            
         })
+   
 
     }
 

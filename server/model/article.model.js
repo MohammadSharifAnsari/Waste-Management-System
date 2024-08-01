@@ -4,9 +4,9 @@ import mongoose from "mongoose";
 
 
 const articleSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  main_content: { type: String, required: true },
-  cover_content: { type: String, required: true },
+  title: { type: String,  required: function() { return this.isNew; }},
+  main_content: { type: String,  required: function() { return this.isNew; }},
+  cover_content: { type: String,  required: function() { return this.isNew; } },
   sub_title:{type:String},
   sub_content:{type:String},
   author: { type: String, required: true },

@@ -81,7 +81,7 @@ console.log("useEffect worlking")
           <LArticalCard key={idx} {...articalsContent}  />
         ))}
       </section>
-      <AsideMenu />
+      {/* <AsideMenu /> */}
     </main>
   );
 }

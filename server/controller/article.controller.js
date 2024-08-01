@@ -228,13 +228,21 @@ async function PostComment(req,res,next)
   }
   const users= await usermodel.findById(userid);
   const article= await articleModel.findById(articleid);
+
+  console.log("user>>",users);
+  console.log("article>>",article);
   const comment= {
     user:users.name,
     content:content,
     createdAt:Date.now()
   }
  
-  article.comments.push(comment)
+  let arr=article.comments;
+console.log("arr",arr);
+arr.push(comment);
+console.log("arr after",arr);
+  article.comments=arr;
+
 
 article.save()
   return res.json({

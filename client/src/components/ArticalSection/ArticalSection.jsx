@@ -81,7 +81,7 @@ const articleContent={
       ) : (
         <main className="flex md:justify-between lg:flex-row flex-col mb-10">
           <ContentSection {...articleContent} />
-          <AsideMenu />
+          <AsideMenu id={id} />
         </main>
       )}
     </PreviewProvider>

@@ -21,7 +21,7 @@ function Todo({ todo }) {
         todo.completed ? "opacity-50" : "opacity-100"
       }`}
     >
-      <div>
+      <div className="flex w-full">
         <input
           type="checkbox"
           checked={todo.completed}
@@ -30,7 +30,7 @@ function Todo({ todo }) {
         />
         <input
           type="text"
-          className={`inline mx-3 ${
+          className={`inline mx-3 w-full  ${
             isTodoEditable ? "border-black/10 border-2 px-2" : "border-transparent"
           } ${todo.completed ? "line-through" : ""}`}
           value={todoMsg}

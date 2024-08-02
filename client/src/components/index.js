@@ -12,6 +12,7 @@ import DisplayArticals from "./DisplayArticals/DisplayArticals";
 import SignForm from "./SignForm/SignForm";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import OrganisationForm from "./OrganisationForm/OrganisationForm";
+import ErrorPage  from "./ErrorPage/ErrorPage";
 
 export {
   Navbar,
@@ -27,5 +28,6 @@ export {
   SocialIcons,
   ProfilePage,
   OrganisationForm,
+  ErrorPage,
   Footer,
 };

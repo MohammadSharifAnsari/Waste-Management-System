@@ -1,5 +1,6 @@
 import React from "react";
 import AboutCard from "./AboutCard/AboutCard";
+import LArticalCard from "../DisplayArticals/LArticalCard/LArticalCard.jsx";
 
 function AboutCards() {
   return (
@@ -17,6 +18,12 @@ function AboutCards() {
       <div className="flex flex-col items-center justify-center gap-8 p-6 bg-custom-link-blue">
         <h3 className="text-3xl text-white">What We Do?</h3>
         <div className="flex justify-center flex-wrap gap-6">
+        {/* <LArticalCard heading={"Unlock Expert Recycling and Waste Reduction Tips"}
+            content={
+              "Dive into our rich library of guides, videos, and articles. Discover practical tips for composting, cutting down on single-use plastics, and mastering the art of recycling."
+            }
+            // linkText={"Unlock Resources"}
+            imageUrl={"/images/card_cover/resources.webp"}/> */}
           <AboutCard
             heading={"Unlock Expert Recycling and Waste Reduction Tips"}
             content={

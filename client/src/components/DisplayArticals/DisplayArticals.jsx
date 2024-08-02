@@ -39,7 +39,7 @@ let articalsContents=[];
       id:el._id,
       heading:el.title,
       content:el.cover_content,
-      imageUrl:el.media,
+      imageUrl:el?.media?.secure_url,
       author:el.author,
 
     })

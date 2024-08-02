@@ -12,10 +12,10 @@ const cookieOptions = {
 }
 
 async function register(req,res,next){
-
+    // [{location ,
+    //     companyName, contactNo}]
     try {
-        const { name, email, password,address,headquaters:[{location ,
-        companyName, contactNo}] } = req.body;
+        const { name, email, password,address,headquaters } = req.body;
          console.log(name);
          console.log(password);
          console.log(email);
@@ -34,6 +34,8 @@ async function register(req,res,next){
 
 
         //2nd methos to check duplicacy
+    
+        console.log("headquaters-->",headquaters);
 
         const companyexist = await CompanyModel.findOne({ email });                          
 
@@ -43,25 +45,21 @@ async function register(req,res,next){
         }
         //now if user not exists in database then first create it and then update client profile
         // password=bcrypt.hash('password',10); instead of this we also use schema level validation
-
+        // [headquaters[0]]
+        console.log("befor")
         const company = await CompanyModel.create({
             name,
             email,
             password:await bcrypt.hash('password',10),
             address,
-            headquaters:[
-                {
-                 location,
-                 companyName,
-                 contactNo
-                }
-            ],
+            headquaters,
             avatar: {
                 public_id: email,
                 //secure_url me usne cloudinary service ka url diya hai jo image store kar rha tha
                 secure_url: 'https://tse2.mm.bing.net/th?id=OIP.rBroxJeka0Jj81uw9g2PwAHaHa&pid=Api&P=0&h=220'
             }
         });
+        console.log("after")
         if (!company) {
             return next(new AppError("user not register,please try again", 500));
         }
@@ -79,7 +77,7 @@ async function register(req,res,next){
                 //req.file.path=> give us the path to the file where image has been stored
                 // cloudinary.v2.uploader.upload(file, options).then(callback);
                 const result = await cloudinary.v2.uploader.upload(req.file.path, {
-                    folder: 'LMS',//kaun se folder se upload karna hai humara project LMS me hai taki cvlient bhi access kar sake
+                    folder: 'Waste Management System',//kaun se folder se upload karna hai humara project LMS me hai taki cvlient bhi access kar sake
                     width: 250,//by default heigt and width is in pexel unit
                     height: 250,
                     gravity: 'faces',//focus image ke fase pe rakhna hai

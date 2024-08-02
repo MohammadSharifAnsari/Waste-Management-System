@@ -79,6 +79,30 @@ return (await res).data;
 
 })
 
+export const updataUser=createAsyncThunk("/auth/update",async(data)=>{
+
+try {
+
+    const res=axiosInstance.put(`/user/update/${data[0]}`,data[1]);
+
+    toast.promise(res,{
+        loading:"updating user...",
+        success:(state)=>{
+            return state?.data?.message
+        },
+        error:"Update failed"
+    })
+
+    return (await res).data;
+    
+} catch (error) {
+    toast.error(err?.response?.data?.message);
+}
+
+})
+
+
+
 const userSlice=createSlice({
 name:"user",
 initialState,
@@ -106,6 +130,11 @@ state.data=action?.payload?.user;
         state.isLoggedIn=false;
         state.role="user";
         state.data={};
+    })
+    .addCase(updataUser.fulfilled,(state,action)=>{
+
+        localStorage.setItem("data",JSON.stringify(action?.payload?.user));
+        state.data=action?.payload?.user;      
     })
 
 }

@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import fs from 'fs/promises';
 import sendmail from "../utils/mailer.utils.js";
 import crypto from "crypto";
+import cloudinary from "cloudinary";
 
 const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 100,//7 days ke liye cookie set hogi
@@ -283,6 +284,8 @@ async function updateuser(req,res,next){
         user.address = address;
         await user.save();
     }
+
+    console.log("req.file>>",req.file);
     if (req.file) {
         //agar koi profile bhi di gyi hai then first hum user ke avatar ko jo cloudinary pe save hai usko destry karenge
 
@@ -292,8 +295,9 @@ async function updateuser(req,res,next){
       
             //req.file.path=> give us the path to the file where image has been stored
             // cloudinary.v2.uploader.upload(file, options).then(callback);
+            console.log("req.file.path>>",req.file.path);
             const result = await cloudinary.v2.uploader.upload(req.file.path, {
-                folder: 'LMS',//kaun se folder se upload karna hai humara project LMS me hai taki cvlient bhi access kar sake
+                folder: 'Waste Manegement system',//kaun se folder se upload karna hai humara project LMS me hai taki cvlient bhi access kar sake
                 width: 250,//by default heigt and width is in pexel unit
                 height: 250,
                 gravity: 'faces',//focus image ke fase pe rakhna hai
@@ -306,6 +310,7 @@ async function updateuser(req,res,next){
 
                 user.avatar.public_id = result.public_id;
                 user.avatar.secure_url = result.secure_url;
+                console.log("user in controller>>",user);
                 //remove file from server 
                 fs.rm(`uploads/${req.file.filename}`);
 
@@ -327,7 +332,8 @@ async function updateuser(req,res,next){
     res.status(200).json(
         {
             success: true,
-            message: "user update successfully"
+            message: "user update successfully",
+            user
 
         }
     )

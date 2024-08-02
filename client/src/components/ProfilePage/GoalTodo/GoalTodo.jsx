@@ -6,6 +6,14 @@ import TodoForm from "./TodoForm/TodoForm";
 function GoalTodo() {
   const [todos, setTodos] = useState([]);
 
+let remainingTodo=0;
+
+todos.map((el)=>{
+if(el.completed==false){
+  remainingTodo++;
+}
+})
+
   const addTodo = (todo) => {
     setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev]);
   };
@@ -57,7 +65,7 @@ function GoalTodo() {
           ))}
         </div>
         <div className="bg-green-300 py-2 text-center font-medium rounded-xl self-center w-[100%]">
-          Goals Remaing: 3
+          Goals Remaing: {remainingTodo}
         </div>
       </section>
     </TodoProvider>

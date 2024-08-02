@@ -1,4 +1,8 @@
  name, email, password,address
  1.)authentication through google lindin stc
  2.)company ender page foy selling
- 
+______________________________________________________________________________________________
+ use state first render karta hai poora phir us render karne me jitni baar setstate call hua hai utni baar aur render karega
+
+ ______________________________________________________________________________________________
+ https://coreui.io/react/docs/components/icon/=>UI components

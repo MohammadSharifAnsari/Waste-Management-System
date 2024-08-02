@@ -5,6 +5,8 @@ function ContentSection({
   mainPara = "",
   author = "",
   PublishDate = "",
+  imageUrls=undefined,
+  
   subParagraphs = [
     {
       subHeading: "",
@@ -14,18 +16,28 @@ function ContentSection({
     },
   ],
 }) {
+
+  console.log({ mainHeading, mainPara, author, PublishDate, imageUrls, subParagraphs});
+  console.log("imageUrl>>",imageUrls);
+  console.log("imageUrl>>",mainHeading);
   return (
     <article className="bg-custom-offWhite sm:m-0 m-auto sm:w-[70vw] w-[90vw] md:p-24 p-10 rounded-r-xl flex flex-col gap-10 mb-14 text-justify">
       <h3 className="md:text-4xl text-2xl text-balance font-medium text-center">
         {mainHeading || "Main Heading"}
       </h3>
+<div>
+
+<img src={imageUrls} alt="Image not load" />
+
+</div>
+
       <div className="sm:text-sm text-[12px] sm:text-left text-center text-gray-500">
         {PublishDate || ""} -{" "}
         <span className="text-custom-link-blue">{author || "Author"}</span>
       </div>
       <p>{mainPara || "Main Paragraph"}</p>
 
-      {subParagraphs.map((para,idx) => (
+      {subParagraphs.length>1&&subParagraphs.map((para,idx) => (
         <div  key={idx} className="flex flex-col gap-[inherit]">
           <h4 className="sm:text-2xl text-xl font-medium text-center">
             {para["subHeading"] || "Sub Heading"}

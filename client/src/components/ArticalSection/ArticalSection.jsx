@@ -46,7 +46,7 @@ arr.push({
   subHeading:el?.sub_title,
   subPara:el?.sub_content,
   videoLink:el?.vediolink,
-  imageUrl:el?.media?.secure_url
+  imageUrl:el?.media?.secure_url,
 });
 
 const articleContent={
@@ -54,10 +54,10 @@ const articleContent={
   mainPara:el?.main_content,
   author:el?.author,
   PublishDate:el?.createdAt,
+  imageUrls:el?.media?.secure_url,
   subParagraphs:arr,
-
 }
-
+console.log("el?.media?.secure_url",articleContent?.imageUrls);
 
   const handlePreview = (content) => {
     console.log(content);
@@ -80,7 +80,7 @@ const articleContent={
         </main>
       ) : (
         <main className="flex md:justify-between lg:flex-row flex-col mb-10">
-          <ContentSection {...articleContent} />
+          <ContentSection {...articleContent} x={articleContent.imageUrls} />
           <AsideMenu id={id} />
         </main>
       )}

@@ -33,8 +33,8 @@ function Footer() {
             </ul>
           </div>
           <div className="flex flex-col justify-center items-center gap-5">
-            <div className="p-2 px-5 text-black bg-white rounded w-fit">
-              Logo
+            <div className="p-2 px-5 text-black bg-transparent rounded w-fit">
+            <img src="/images/newLOGO.png"  alt="LOGO" className=" h-14 w-14 bg-transparent " />
             </div>
             <SocialIcons />
           </div>

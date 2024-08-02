@@ -13,7 +13,7 @@ function LArticalCard({
   return (
     <div className="hover:scale-110 drop-shadow-lg transition-all flex sm:flex-row flex-col items-center sm:w-[60vw] w-[28rem] sm:h-[20rem] bg-white border rounded-2xl gap-4 p-4">
       <div
-        className="sm:w-[66rem] drop-shadow-xl w-full h-[16rem] bg-cover rounded-2xl"
+        className="sm:w-[66rem] drop-shadow-xl w-full h-[16rem] bg-cover rounded-2xl "
         style={{
           backgroundImage: `url(${imageUrl || "/images/hero_cover.webp"})`,
         }}
